@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Note;
 
-class DemoController extends Controller
+class MainController extends Controller
 {
   /**
   * @Route("/")
@@ -22,7 +22,7 @@ class DemoController extends Controller
     $em->flush();
 */
     $name = 'Julien';
-    return $this->render('base.html.twig', array('name' => $name));
+    return $this->render('main.html.twig', array('name' => $name));
   }
 }
 ?>
