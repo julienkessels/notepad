@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="col-xs-12">
+  <div class="row text-left" style="margin-top:100px">
+
+    {% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+    <h3>New Category</h3>
+    <div class="container category-form">
+      {{ form_start(form) }}
+      {{ form_widget(form) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+</div>
+{% endblock %}
