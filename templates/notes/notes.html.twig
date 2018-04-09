@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div class="col-xs-12 text-center">
+<div class="col-xs-4 text-center">
   <div class="row" style="margin-top:100px; margin-bottom:50px">
     <a style="display: block; margin: 0 auto;" class="btn btn-primary" href={{ path('new_note') }} role="button">new note</a>
   </div>
@@ -22,7 +22,9 @@
         <p style="color:#fff" class="card-text">{{ item.getDate()|date('Y-m-d') }}</p>
       </div>
       <div class="card-footer text-center">
-        <a href="#" class="btn btn-primary">Edit note</a>
+        <a href={{ path('edit_note', {'id': item.getId() }) }} class="btn btn-primary">Edit note</a>
+        <a href={{ path('delete_note', {'id': item.getId() }) }} class="btn btn-primary">Delete note</a>
+
       </div>
     </div>
   </div>

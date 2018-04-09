@@ -66,5 +66,51 @@ class NotesController extends Controller
         ));
     }
 
+
+    /**
+     * @Route("/notes/delete/{id}", name="delete_note")
+     * @param Note $note
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteNote(Note $note)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($note);
+        $em->flush();
+        return $this->redirectToRoute('notes');
+    }
+
+    /**
+     * @Route("/notes/edit/{id}", name="edit_note")
+     * @param Request $request
+     * @param Note $note
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function editNote(Request $request, Note $note)
+    {
+        $form = $this->createFormBuilder($note)
+            ->add('title', TextType::class)
+            ->add('date', DateType::class)
+            ->add('content', TextType::class)
+            ->add('category', EntityType::class, array(
+                'class' => Category::class,
+                'choice_label' => 'libelle'
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Edit Note'))
+            ->getForm();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            $note = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($note);
+            $em->flush();
+            return $this->redirectToRoute('notes');
+        }
+        return $this->render('notes/newNote.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
 }
 ?>
