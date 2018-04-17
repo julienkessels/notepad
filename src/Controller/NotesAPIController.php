@@ -17,14 +17,15 @@ class NotesAPIController extends Controller
      */
     public function index()
     {
-        $notes = $this->getDoctrine()
-            ->getRepository(Note::class)
-            ->findAll();
-        $data = $this->get('jms_serializer')->serialize($notes, 'json');
-        $response = new Response($data);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+      $notes = $this->getDoctrine()
+           ->getRepository(Note::class)
+           ->findAll();
+       $data = $this->get('jms_serializer')->serialize($notes, 'json');
+       $response = new Response($data);
+       $response->headers->set('Content-Type', 'application/json');
+       return $response;
     }
+
     /**
      * @Route("/api/note", name="api_note_create")
      * @Method({"POST"})

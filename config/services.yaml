@@ -26,3 +26,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    custom_serializer_handle:
+            class: App\Service\EntityHandler
+            arguments: ['@doctrine']
+            tags:
+                - {name: 'jms_serializer.subscribing_handler'}
