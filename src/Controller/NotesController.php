@@ -112,5 +112,28 @@ class NotesController extends Controller
         ));
     }
 
+    /**
+    * @Route("/notesTag", name="notesTag")
+    * @param Request $request
+    * @return \Symfony\Component\HttpFoundation\Response
+    */
+   public function getByTag (Request $request) {
+       $notes = $this->getDoctrine()
+           ->getRepository(Note::class)
+           ->findAll();
+       $search_tag = $request->get("search");
+       $notesToRender = array();
+       foreach($notes as $note){
+           $xmlCrawler = new Crawler();
+           $xmlCrawler->addXmlContent($note->getContent());
+           $tag = $xmlCrawler->filterXPath('//content/tag')->text();
+           if ($tag == $search_tag){
+               $notesToRender [] = $note;
+           }
+       }
+       return $this->render('notes/allnotes.html.twig', array('notes'=>$notesToRender));
+   }
+
+
 }
 ?>

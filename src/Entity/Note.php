@@ -85,7 +85,7 @@ use JMS\Serializer\Annotation as Serializer;
       */
      public function setContent($content)
      {
-         $this->content = $content;
+         $this->content = "<content>" . $content . "</content>";
      }
      /**
       * @return mixed
@@ -115,4 +115,32 @@ use JMS\Serializer\Annotation as Serializer;
      {
          $this->category = $category;
      }
+
+     /**
+     * @Assert\IsTrue(message = "This content is not validd")
+     */
+    public function isValid()
+    {
+        $xsdValidation =
+        "<xs:schema attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">
+          <xs:element name=\"content\">
+            <xs:complexType mixed=\"true\">
+              <xs:sequence>
+                <xs:element type=\"xs:string\" name=\"tag\" maxOccurs=\"unbounded\" minOccurs=\"0\"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:schema>";
+        $dom = new \DOMDocument();
+        try {
+            $xmlContent = $this->content ;
+            $dom->loadXML($xmlContent);
+            $dom->schemaValidateSource($xsdValidation);
+        } catch ( \ErrorException $e)
+        {
+            echo "<h6> error validating content</h6>" . $e->getMessage();
+            return false;
+        }
+        return true;
+    }
  }
