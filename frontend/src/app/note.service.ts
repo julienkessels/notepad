@@ -14,7 +14,7 @@ const httpOptions = {
 @Injectable()
 export class NoteService {
 
-  private notesUrl = 'http://localhost:8000/api/notes';
+  private notesUrl = 'http://localhost:8000/api';
   notes: Note[] = [];
 
   constructor(
@@ -23,10 +23,38 @@ export class NoteService {
 
   /** GET notes from the server */
   getNotes (): Observable<Note[]> {
-    return this.http.get<Note[]>(this.notesUrl)
+    return this.http.get<Note[]>(this.notesUrl+'/notes')
       .pipe(
-        tap(notes => this.log(notes)),
+        tap(_ => console.log('got notes')),
         catchError(this.handleError('getNotes', []))
+      );
+  }
+
+  /** GET note from the server */
+  getNote (id:number): Observable<Note> {
+    return this.http.get<Note>(this.notesUrl+`/note/${id}`)
+      .pipe(
+        tap(_ => console.log('got note')),
+        catchError(this.handleError('getNote'))
+      );
+  }
+
+  /** POST note to the server */
+  addNote(newNote: Note): Observable<Note> {
+    console.log(newNote)
+    return this.http.post<Note>(this.notesUrl+'/note', newNote, httpOptions)
+      .pipe(
+        tap(_ => console.log('note added')),
+        catchError(this.handleError('addNote'))
+      );
+  }
+
+  /** DELETE note from the server */
+  deleteNote(note: Note): Observable<any> {
+    return this.http.delete<Note>(this.notesUrl+`/note/${note.id}`, httpOptions)
+      .pipe(
+        tap(_ => this.log('note deleted')),
+        catchError(this.handleError('deleteNote'))
       );
   }
 
@@ -40,7 +68,7 @@ export class NoteService {
     return (error: any): Observable<T> => {
 
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      this.log(error)
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);
@@ -53,6 +81,5 @@ export class NoteService {
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     console.log(message)
-    //this.messageService.add('HeroService: ' + message);
   }
 }

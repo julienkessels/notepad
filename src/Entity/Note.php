@@ -39,6 +39,7 @@ use JMS\Serializer\Annotation as Serializer;
       * @ORM\Column(type="datetime")
       * @Assert\NotBlank()
       * @Assert\Type("\DateTime")
+      * @Serializer\Type("DateTime<'Y-m-d'>")
       */
      private $date;
 

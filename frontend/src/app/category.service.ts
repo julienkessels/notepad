@@ -14,8 +14,8 @@ const httpOptions = {
 @Injectable()
 export class CategoryService {
 
-  private categoriesUrl = 'http://localhost:8000/api/categories';
-  categories: Category[] = [];
+  private categoriesUrl = 'http://localhost:8000/api';
+  categories: Observable<Category[]>;
 
   constructor(
     private http: HttpClient
@@ -23,10 +23,37 @@ export class CategoryService {
 
   /** GET categories from the server */
   getCategories (): Observable<Category[]> {
-    return this.http.get<Category[]>(this.categoriesUrl)
+    return this.http.get<Category[]>(this.categoriesUrl+'/categories')
       .pipe(
-        tap(categories => this.log(categories)),
+        tap(categories => {}),
         catchError(this.handleError('getCategories', []))
+      );
+  }
+
+  /** GET category from the server */
+  getCategory (id:number): Observable<Category> {
+    return this.http.get<Category>(this.categoriesUrl+`/categories/${id}`)
+      .pipe(
+        tap(_ => console.log('got category')),
+        catchError(this.handleError('getCategory'))
+      );
+  }
+
+  /** POST category to the server */
+  addCategory(newCategory: Category): Observable<Category> {
+    return this.http.post<Category>(this.categoriesUrl+'/categories', newCategory, httpOptions)
+      .pipe(
+        tap(_ => console.log('category added')),
+        catchError(this.handleError('addCategory'))
+      );
+  }
+
+  /** DELETE note from the server */
+  deleteCategory(category: Category): Observable<any> {
+    return this.http.delete<Category>(this.categoriesUrl+`/categories/${category.id}`, httpOptions)
+      .pipe(
+        tap(_ => this.log('category deleted')),
+        catchError(this.handleError('deleteCategory'))
       );
   }
 

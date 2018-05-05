@@ -42,7 +42,7 @@ class NotesAPIController extends Controller
       $data = $this->get('jms_serializer')->serialize($note, 'json');
       $response = new Response($data);
       $response->headers->set('Content-Type', 'application/json');
-      $response->setStatusCode(Response::HTTP_FOUND);
+      $response->setStatusCode(Response::HTTP_OK);
       return $response;
     }
     else {
@@ -86,11 +86,11 @@ class NotesAPIController extends Controller
       )
     );
     $response->headers->set('Content-Type', 'application/json');
-    $response->setStatusCode(Response::HTTP_CREATED);
+    $response->setStatusCode(Response::HTTP_OK);
     return $response;
   }
 
-  
+
   /**
   * @Route("/api/note/{id}", name="api_note_delete")
   * @Method({"DELETE"})
