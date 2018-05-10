@@ -12,11 +12,10 @@ import {Observable} from 'rxjs/Rx';
   templateUrl: './note-form.component.html',
   styleUrls: ['./note-form.component.css']
 })
+
 export class NoteFormComponent implements OnInit {
   note: Note;
   categories: Observable<Category[]>;
-
-  typee: string;
 
   @Input('mode') mode: string;
 
@@ -34,20 +33,24 @@ export class NoteFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.typee = this.mode
     if(this.passed_note == null) {
       this.note = new Note();
     }
     this.getCategories()
   }
 
-  addNote() {
-    this.noteService.addNote(this.note)
-    .subscribe(_ => this.router.navigate(["/"]));
+  submit() {
+    if(this.mode == "new") {
+      this.noteService.addNote(this.note)
+      .subscribe(_ => this.router.navigate(["/"]));
+    }
+    else {
+      this.noteService.editNote(this.note)
+      .subscribe(_ => this.router.navigate(["/"]));
+    }
   }
 
   getCategories(): void {
     this.categories = this.categoryService.getCategories()
-    console.log(this.categories)
   }
 }

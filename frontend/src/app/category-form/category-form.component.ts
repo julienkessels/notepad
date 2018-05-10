@@ -10,7 +10,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class CategoryFormComponent implements OnInit {
   category: Category;
-  typee: string;
 
   @Input('mode') mode: string;
 
@@ -27,16 +26,19 @@ export class CategoryFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.typee = this.mode
     if(this.passed_category == null) {
       this.category = new Category();
     }
-    console.log(this.typee)
   }
 
-  addCategory() {
-    this.categoryService.addCategory(this.category)
-    .subscribe(_ => this.router.navigate(["categories"]));
+  submit() {
+    if(this.mode == 'new') {
+      this.categoryService.addCategory(this.category)
+      .subscribe(_ => this.router.navigate(["categories"]));
+    }
+    else {
+      this.categoryService.editCategory(this.category)
+      .subscribe(_ => this.router.navigate(["categories"]));
+    }
   }
-
   }

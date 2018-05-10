@@ -7,11 +7,13 @@ import {Category} from '../category'
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 
+
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.css']
 })
+
 export class NotesComponent implements OnInit {
   notes: Observable<Note[]>;
   categories: Observable<Category[]>;

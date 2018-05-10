@@ -49,6 +49,16 @@ export class NoteService {
       );
   }
 
+  /** PUT note to the server */
+  editNote(editedNote: Note): Observable<Note> {
+    console.log(editedNote)
+    return this.http.put<Note>(this.notesUrl+`/note/${editedNote.id}`, editedNote, httpOptions)
+      .pipe(
+        tap(_ => console.log('note edited')),
+        catchError(this.handleError('editnote'))
+      );
+  }
+
   /** DELETE note from the server */
   deleteNote(note: Note): Observable<any> {
     return this.http.delete<Note>(this.notesUrl+`/note/${note.id}`, httpOptions)

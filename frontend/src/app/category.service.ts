@@ -48,6 +48,15 @@ export class CategoryService {
       );
   }
 
+  /** PUT category to the server */
+  editCategory(editedCategory: Category): Observable<Category> {
+    return this.http.put<Category>(this.categoriesUrl+`/categories/${editedCategory.id}`, editedCategory, httpOptions)
+      .pipe(
+        tap(_ => console.log('category edited')),
+        catchError(this.handleError('editcategory'))
+      );
+  }
+
   /** DELETE note from the server */
   deleteCategory(category: Category): Observable<any> {
     return this.http.delete<Category>(this.categoriesUrl+`/categories/${category.id}`, httpOptions)
