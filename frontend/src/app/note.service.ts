@@ -68,6 +68,20 @@ export class NoteService {
       );
   }
 
+  /* GET notes whose name contains search term */
+  searchNoteByTag(term: string): Observable<Note[]> {
+    if (!term.trim()) {
+      // if not search term, return empty note array.
+      return of([]);
+    }
+    return this.http.get<Note[]>(this.notesUrl+`/note/tag/${term}`, httpOptions)
+    .pipe(
+      tap(_ => this.log(`found notes matching "${term}"`)),
+      catchError(this.handleError('searchNotes', []))
+    );
+  }
+
+
   /**
    * Handle Http operation that failed.
    * Let the app continue.

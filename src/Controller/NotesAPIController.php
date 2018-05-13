@@ -8,6 +8,7 @@ use App\Entity\Note;
 use App\Entity\Category;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\DomCrawler\Crawler;
 
 class NotesAPIController extends Controller
 {
@@ -66,6 +67,7 @@ class NotesAPIController extends Controller
   {
     $noteManager = $this->getDoctrine()
     ->getManager();
+
     $content = $request->getContent();
     if (empty($content))
     {
@@ -77,6 +79,7 @@ class NotesAPIController extends Controller
       );
     }
     $note = $this->get('jms_serializer')->deserialize($content, Note::class, 'json');
+    $note->setContent($note->getContent());
     $noteManager->persist($note);
     $noteManager->flush();
     $response = new JsonResponse(
@@ -150,7 +153,7 @@ class NotesAPIController extends Controller
     if ($note) {
       $note_request = $this->get('jms_serializer')->deserialize($content, Note::class, 'json');
       $note->setTitle($note_request->getTitle());
-      $note->setContent($note_request->getContent());
+      $note->setContentEdit($note_request->getContent());
       $note->setDate($note_request->getDate());
       $note->setCategory($note_request->getCategory());
       $noteManager->flush();
@@ -173,4 +176,34 @@ class NotesAPIController extends Controller
       );
     }
   }
+
+  /**
+     * @Route("/api/note/tag/{tag}", name="get_api_tag")
+     * @param Request $request
+     * @Method({"GET"})
+     * @return Response
+     */
+    public function getByTag ($tag) {
+        $notes = $this->getDoctrine()
+            ->getRepository(Note::class)
+            ->findAll();
+        $notesToRender = array();
+        foreach($notes as $note){
+            $xmlCrawler = new Crawler();
+            $xmlCrawler->addXmlContent($note->getContent());
+              $tagg = $xmlCrawler->filterXPath('//content/tag');
+              if ($tagg->count()) {
+                if ($tagg->text() == $tag){
+                    $notesToRender [] = $note;
+                }
+              }
+        }
+        $data = $this->get('jms_serializer')->serialize($notesToRender, 'json');
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+    }
+
+
 }

@@ -9,8 +9,8 @@ import {Category} from '../category'
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  categories: Observable<Category[]>;
-
+  //categories: Observable<Category[]>;
+  categories: Category[];
   constructor( private categoryService: CategoryService ) {}
 
   ngOnInit() {

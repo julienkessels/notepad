@@ -4,6 +4,15 @@
       <button [routerLink]="['/newNote']" id="singlebutton" name="singlebutton" class="btn btn-primary">Add a new note</button>
   </div>
 
+  <div class="col-xs-12 text-center" style="margin-bottom:50px">
+    <form class="form-inline col-xs-12 text-center">
+              <input type="search" class="form-control" id="content" [(ngModel)]="search" name="form[content]">
+             <button id="search-button" class="btn btn-outline-success my-2 my-sm-0" (click)="searchTag()" type="submit">Search Note</button>
+             <button id="clear-button" class="btn btn-outline-success my-2 my-sm-0" (click)="getNotes()" type="submit">Clear</button>
+
+        </form>
+  </div>
+
   <div class="row" style="margin-top:50px">
         <div *ngFor="let note of notes | async" class="col-4" style="padding:20px">
           <div class="container">

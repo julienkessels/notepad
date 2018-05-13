@@ -15,11 +15,14 @@ import 'rxjs/add/operator/map';
 })
 
 export class NotesComponent implements OnInit {
-  notes: Observable<Note[]>;
-  categories: Observable<Category[]>;
+  search: String;
+
+  notes: Note[];
+  //categories: Observable<Category[]>;
+  categories: Category[];
 
   constructor(
-    private noteService: NoteService
+    private noteService: NoteService,
     private categoryService: CategoryService
   ) {}
 
@@ -29,6 +32,7 @@ export class NotesComponent implements OnInit {
   }
 
   getNotes(): void {
+    this.search=""
     this.notes = this.noteService.getNotes()
   }
 
@@ -41,4 +45,9 @@ export class NotesComponent implements OnInit {
     this.noteService.deleteNote(note)
     .subscribe(_ => this.getNotes());
   }
+
+  searchTag(): void {
+    this.notes = this.noteService.searchNoteByTag(this.search)
+  }
+
  }

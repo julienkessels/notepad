@@ -81,6 +81,7 @@ use JMS\Serializer\Annotation as Serializer;
      {
          return $this->content;
      }
+
      /**
       * @param $content
       */
@@ -88,6 +89,15 @@ use JMS\Serializer\Annotation as Serializer;
      {
          $this->content = "<content>" . $content . "</content>";
      }
+
+     /**
+      * @param $content
+      */
+     public function setContentEdit($content)
+     {
+         $this->content = $content;
+     }
+     
      /**
       * @return mixed
       */
