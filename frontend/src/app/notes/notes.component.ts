@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map';
 })
 
 export class NotesComponent implements OnInit {
-  search: String;
+  search: string;
 
   notes: Note[];
   //categories: Observable<Category[]>;

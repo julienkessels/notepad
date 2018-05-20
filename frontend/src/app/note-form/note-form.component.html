@@ -7,7 +7,7 @@
 
     <div class="form-group">
       <label for="content">Content</label>
-      <input type="text" class="form-control" id="content" [(ngModel)]="note.content" name="form[content]" required>
+      <input type="text" class="form-control" id="content" #content [(ngModel)]="note.content" name="form[content]" required (select)="onSelect(content.value.substring(content.selectionStart, content.selectionEnd))">
     </div>
 
     <div class="form-group">
@@ -17,14 +17,12 @@
 
     <div class="form-group">
       <label for="category">Category</label>
-      <!--<input type="text" class="form-control" id="category" [(ngModel)]="note.category" name="form[category]" required>
-    -->
-    <select class="form-control" id="category" required [(ngModel)]="note.category" name="id">
-      <option *ngFor="let category of categories | async" [value]="category.id">{{category.libelle}}</option>
-    </select>
-  </div>
+      <select class="form-control" id="category" required [(ngModel)]="note.category" name="id">
+        <option *ngFor="let category of categories | async" [value]="category.id">{{category.libelle}}</option>
+      </select>
+    </div>
+    <button id="btn1" class="btn btn-success" (click)="addTag($event)">Add tag</button>
+    <button type="submit" class="btn btn-success" (click)="submit()">{{mode}}</button>
 
-  <button type="submit" class="btn btn-success" (click)="submit()">{{mode}}</button>
-
-</form>
+  </form>
 </div>

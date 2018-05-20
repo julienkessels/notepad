@@ -79,9 +79,23 @@ class NotesAPIController extends Controller
       );
     }
     $note = $this->get('jms_serializer')->deserialize($content, Note::class, 'json');
-    $note->setContent($note->getContent());
-    $noteManager->persist($note);
-    $noteManager->flush();
+    if ($note->isValid()) {
+      $note->setContent($note->getContent());
+      $noteManager->persist($note);
+      $noteManager->flush();
+    }
+    else {
+      $response = new JsonResponse(
+        array(
+          'status' => 'Error',
+          'message' => 'Content is not valid'
+        )
+      );
+      $response->headers->set('Content-Type', 'application/json');
+      $response->setStatusCode(Response::HTTP_OK);
+      return $response;
+    }
+
     $response = new JsonResponse(
       array(
         'status' => 'CREATED',

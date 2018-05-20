@@ -28,7 +28,6 @@ class CategoryController extends Controller
     ));
   }
 
-
   /**
   * @Route("/newCategory", name="new_category")
   * @param Request $request
@@ -52,13 +51,10 @@ class CategoryController extends Controller
       $em->flush();
       return $this->redirectToRoute('categories');
     }
-
-
     return $this->render('categories/newCategory.html.twig', array(
       'form' => $form->createView(),
     ));
   }
-
 
   /**
   * @Route("/categories/edit/{id}", name="category_edit")
@@ -86,7 +82,6 @@ class CategoryController extends Controller
     ));
   }
 
-
   /**
   * @Route("/categories/delete/{id}", name="category_delete")
   * @param Category $category
@@ -99,6 +94,5 @@ class CategoryController extends Controller
     $em->flush();
     return $this->redirectToRoute('categories');
   }
-
 }
 ?>

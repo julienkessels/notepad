@@ -1,11 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Note } from '../note'
-import {Category} from '../category'
+import { Category } from '../category'
 import { NoteService } from '../note.service';
 import { CategoryService } from '../category.service';
-
-import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from 'rxjs/Rx';
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-note-form',
@@ -16,6 +15,7 @@ import {Observable} from 'rxjs/Rx';
 export class NoteFormComponent implements OnInit {
   note: Note;
   categories: Observable<Category[]>;
+  highlight: string;
 
   @Input('mode') mode: string;
 
@@ -48,6 +48,14 @@ export class NoteFormComponent implements OnInit {
       this.noteService.editNote(this.note)
       .subscribe(_ => this.router.navigate(["/"]));
     }
+  }
+
+  onSelect(e) {
+      this.highlight = e;
+   }
+
+  addTag(event) {
+    this.note.content = this.note.content.replace(this.highlight, `<tag>${this.highlight}</tag>`);
   }
 
   getCategories(): void {

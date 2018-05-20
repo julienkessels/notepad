@@ -7,57 +7,64 @@ use App\Entity\Note;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- */
+* @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+*/
 class Category
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $libelle;
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="category", cascade={"ALL"})
-     */
-    private $notes;
-    /**
-     * Category constructor.
-     */
-    public function __construct()
-    {
-        $this->notes = new ArrayCollection();
-    }
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-    /**
-     * @return mixed
-     */
-    public function getLibelle()
-    {
-        return $this->libelle;
-    }
-    /**
-     * @param $libelle
-     */
-    public function setLibelle($libelle)
-    {
-        $this->libelle = $libelle;
-    }
-    /**
-     * @return Collection|Note[]
-     */
-    public function getNotes()
-    {
-        return $this->notes;
-    }
+  /**
+  * @ORM\Id
+  * @ORM\GeneratedValue
+  * @ORM\Column(type="integer")
+  */
+  private $id;
+
+  /**
+  * @ORM\Column(type="string", length=200)
+  */
+  private $libelle;
+
+  /**
+  * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="category", cascade={"ALL"})
+  */
+  private $notes;
+
+  /**
+  * Category constructor.
+  */
+  public function __construct()
+  {
+    $this->notes = new ArrayCollection();
+  }
+
+  /**
+  * @return mixed
+  */
+  public function getId()
+  {
+    return $this->id;
+  }
+
+  /**
+  * @return mixed
+  */
+  public function getLibelle()
+  {
+    return $this->libelle;
+  }
+
+  /**
+  * @param $libelle
+  */
+  public function setLibelle($libelle)
+  {
+    $this->libelle = $libelle;
+  }
+
+  /**
+  * @return Collection|Note[]
+  */
+  public function getNotes()
+  {
+    return $this->notes;
+  }
 }

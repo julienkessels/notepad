@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,7 +49,7 @@ class CategoriesAPIController extends Controller
       return new JsonResponse(
         array(
           'status' => 'NOT FOUND',
-          'message' => 'This category does not exist'
+          'message' => 'Category does not exist'
         )
       );
     }
@@ -80,7 +81,7 @@ class CategoriesAPIController extends Controller
     $response = new JsonResponse(
       array(
         'status' => 'CREATED',
-        'message' => 'The category has been created.'
+        'message' => 'Category has been created.'
       )
     );
     $response->headers->set('Content-Type', 'application/json');
@@ -107,7 +108,7 @@ class CategoriesAPIController extends Controller
       $response = new JsonResponse(
         array(
           'status' => 'DELETED',
-          'message' => 'This category has been deleted'
+          'message' => 'Category has been deleted'
         )
       );
       $response->headers->set('Content-Type', 'application/json');
@@ -117,59 +118,58 @@ class CategoriesAPIController extends Controller
       return new JsonResponse(
         array(
           'status' => 'NOT FOUND',
-          'message' => 'This category does not exist'
+          'message' => 'Category does not exist'
         )
       );
     }
   }
 
-
   /**
-     * @Route("/api/categories/{id}", name="api_category_edit")
-     * @Method({"PUT", "PATCH"})
-     * @param Request $request
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
-     */
-    public function editCategory(Request $request, $id)
+  * @Route("/api/categories/{id}", name="api_category_edit")
+  * @Method({"PUT", "PATCH"})
+  * @param Request $request
+  * @param $id
+  * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+  */
+  public function editCategory(Request $request, $id)
+  {
+    $categoryManager = $this->getDoctrine()
+    ->getManager();
+    $content = $request->getContent();
+    if (empty($content))
     {
-        $categoryManager = $this->getDoctrine()
-            ->getManager();
-        $content = $request->getContent();
-        if (empty($content))
-        {
-            return new JsonResponse(
-                array(
-                    'status' => 'EMPTY',
-                    'message' => 'The body of this request is empty.'
-                )
-            );
-        }
-        $category = $categoryManager
-            ->getRepository(Category::class)
-            ->find($id);
-        if ($category) {
-            $category_request = $this->get('jms_serializer')->deserialize($content, Category::class, 'json');
-            $category->setLibelle($category_request->getLibelle());
-            $categoryManager->flush();
-            $response = new JsonResponse(
-                array(
-                    'status' => 'UPDATED',
-                    'message' => 'The category has been updated.'
-                )
-            );
-            $response->headers->set('Content-Type', 'application/json');
-            $response->headers->set('Access-Control-Allow-Origin', '*');
-            $response->setStatusCode(Response::HTTP_OK);
-            return $response;
-        }
-        else {
-            return new JsonResponse(
-                array(
-                    'status' => 'NOT FOUND',
-                    'message' => 'This category does not exist'
-                )
-            );
-        }
+      return new JsonResponse(
+        array(
+          'status' => 'EMPTY',
+          'message' => 'Body of this request is empty.'
+        )
+      );
     }
+    $category = $categoryManager
+    ->getRepository(Category::class)
+    ->find($id);
+    if ($category) {
+      $category_request = $this->get('jms_serializer')->deserialize($content, Category::class, 'json');
+      $category->setLibelle($category_request->getLibelle());
+      $categoryManager->flush();
+      $response = new JsonResponse(
+        array(
+          'status' => 'UPDATED',
+          'message' => 'Category has been updated.'
+        )
+      );
+      $response->headers->set('Content-Type', 'application/json');
+      $response->headers->set('Access-Control-Allow-Origin', '*');
+      $response->setStatusCode(Response::HTTP_OK);
+      return $response;
+    }
+    else {
+      return new JsonResponse(
+        array(
+          'status' => 'NOT FOUND',
+          'message' => 'Category does not exist'
+        )
+      );
+    }
+  }
 }
