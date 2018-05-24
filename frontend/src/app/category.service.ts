@@ -24,54 +24,54 @@ export class CategoryService {
   /** GET categories from the server */
   getCategories (): Observable<Category[]> {
     return this.http.get<Category[]>(this.categoriesUrl+'/categories')
-      .pipe(
-        tap(categories => {}),
-        catchError(this.handleError('getCategories', []))
-      );
+    .pipe(
+      tap(categories => {}),
+      catchError(this.handleError('getCategories', []))
+    );
   }
 
   /** GET category from the server */
   getCategory (id:number): Observable<Category> {
     return this.http.get<Category>(this.categoriesUrl+`/categories/${id}`)
-      .pipe(
-        tap(_ => console.log('got category')),
-        catchError(this.handleError('getCategory'))
-      );
+    .pipe(
+      tap(_ => console.log('got category')),
+      catchError(this.handleError('getCategory'))
+    );
   }
 
   /** POST category to the server */
   addCategory(newCategory: Category): Observable<Category> {
     return this.http.post<Category>(this.categoriesUrl+'/categories', newCategory, httpOptions)
-      .pipe(
-        tap(_ => console.log('category added')),
-        catchError(this.handleError('addCategory'))
-      );
+    .pipe(
+      tap(_ => console.log('category added')),
+      catchError(this.handleError('addCategory'))
+    );
   }
 
   /** PUT category to the server */
   editCategory(editedCategory: Category): Observable<Category> {
     return this.http.put<Category>(this.categoriesUrl+`/categories/${editedCategory.id}`, editedCategory, httpOptions)
-      .pipe(
-        tap(_ => console.log('category edited')),
-        catchError(this.handleError('editcategory'))
-      );
+    .pipe(
+      tap(_ => console.log('category edited')),
+      catchError(this.handleError('editcategory'))
+    );
   }
 
   /** DELETE note from the server */
   deleteCategory(category: Category): Observable<any> {
     return this.http.delete<Category>(this.categoriesUrl+`/categories/${category.id}`, httpOptions)
-      .pipe(
-        tap(_ => this.log('category deleted')),
-        catchError(this.handleError('deleteCategory'))
-      );
+    .pipe(
+      tap(_ => this.log('category deleted')),
+      catchError(this.handleError('deleteCategory'))
+    );
   }
 
   /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
+  * Handle Http operation that failed.
+  * Let the app continue.
+  * @param operation - name of the operation that failed
+  * @param result - optional value to return as the observable result
+  */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

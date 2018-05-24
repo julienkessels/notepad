@@ -14,7 +14,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CategoryController extends Controller
 {
-
   /**
   * @Route("/categories", name="categories")
   */
@@ -27,6 +26,10 @@ class CategoryController extends Controller
       'categories' => $categories
     ));
   }
+
+
+
+
 
   /**
   * @Route("/newCategory", name="new_category")

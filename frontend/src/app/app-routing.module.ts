@@ -17,7 +17,6 @@ const routes: Routes = [
   { path: 'categories', component: CategoriesComponent},
   { path: 'newCategory', component: NewCategoryComponent},
   { path: 'editCategory/:id', component: EditCategoryComponent},
-
 ]
 
 @NgModule({
