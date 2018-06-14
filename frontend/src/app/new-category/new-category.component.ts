@@ -10,6 +10,7 @@ export class NewCategoryComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

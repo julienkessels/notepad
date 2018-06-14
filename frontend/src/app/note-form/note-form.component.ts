@@ -24,11 +24,9 @@ export class NoteFormComponent implements OnInit {
     this.note = value;
   }
 
-
   constructor(
     private noteService: NoteService,
     private categoryService: CategoryService,
-    private route: ActivatedRoute,
     private router: Router
   ) {}
 

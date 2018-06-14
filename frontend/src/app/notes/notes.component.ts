@@ -16,9 +16,7 @@ import 'rxjs/add/operator/map';
 
 export class NotesComponent implements OnInit {
   search: string;
-
   notes: Note[];
-  //categories: Observable<Category[]>;
   categories: Category[];
 
   constructor(
@@ -49,5 +47,4 @@ export class NotesComponent implements OnInit {
   searchTag(): void {
     this.notes = this.noteService.searchNoteByTag(this.search)
   }
-
  }

@@ -18,7 +18,6 @@ export class CategoryFormComponent implements OnInit {
     this.category = value;
   }
 
-
   constructor(
     private categoryService: CategoryService,
     private route: ActivatedRoute,
@@ -41,4 +40,4 @@ export class CategoryFormComponent implements OnInit {
       .subscribe(_ => this.router.navigate(["categories"]));
     }
   }
-  }
+}
